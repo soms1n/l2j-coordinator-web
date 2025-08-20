@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>L2J Coordinator - Создание и визуализация сетки координат</title>
+    <link rel="stylesheet" href="styles/style.css">
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>L2J Coordinator</h1>
+            <p>Визуализация сетки координат прямоугольника</p>
+        </div>
+
+        <div class="content">
+            <div class="input-section">
+                <h2>Параметры прямоугольника</h2>
+                <div class="input-group">
+                    <div class="input-field">
+                        <label for="x1">X1 (начальная точка)</label>
+                        <input type="number" id="x1" value="1" placeholder="Введите X1">
+                    </div>
+                    <div class="input-field">
+                        <label for="y1">Y1 (начальная точка)</label>
+                        <input type="number" id="y1" value="1" placeholder="Введите Y1">
+                    </div>
+                    <div class="input-field">
+                        <label for="x2">X2 (конечная точка)</label>
+                        <input type="number" id="x2" value="5" placeholder="Введите X2">
+                    </div>
+                    <div class="input-field">
+                        <label for="y2">Y2 (конечная точка)</label>
+                        <input type="number" id="y2" value="5" placeholder="Введите Y2">
+                    </div>
+                </div>
+                <div class="input-group">
+                    <div class="input-field">
+                        <label for="z">Z (высота)</label>
+                        <input type="number" id="z" value="0" placeholder="Введите Z">
+                    </div>
+                    <div class="input-field">
+                        <label for="heading">Heading (поворот)</label>
+                        <input type="number" id="heading" value="0" placeholder="Введите heading">
+                    </div>
+                    <div class="input-field">
+                        <label for="columnsPerRow">Столбцов в строке</label>
+                        <input type="number" id="columnsPerRow" value="5" placeholder="Введите количество столбцов">
+                    </div>
+                    <div class="input-field">
+                        <label for="rows">Количество строк</label>
+                        <input type="number" id="rows" value="5" placeholder="Введите количество строк">
+                    </div>
+                </div>
+                <div class="button-group">
+                    <button class="btn btn-primary" onclick="generateCoordinates()">Сгенерировать координаты</button>
+                    <button class="btn btn-secondary" onclick="loadSampleData()">Загрузить пример</button>
+                    <button class="btn btn-secondary" onclick="clearVisualization()">Очистить</button>
+                </div>
+            </div>
+
+            <div class="loading" id="loading">
+                <div class="spinner"></div>
+                <p>Генерируем координаты...</p>
+            </div>
+
+            <div class="error" id="error"></div>
+            <div class="success" id="success"></div>
+
+            <div class="visualization-section" id="visualizationSection" style="display: none;">
+                <h2>Визуализация сетки</h2>
+                <div class="canvas-container">
+                    <canvas id="coordinateCanvas" width="800" height="600"></canvas>
+                </div>
+                
+                <div class="info-panel">
+                    <h3>Информация о сетке</h3>
+                    <div id="gridInfo"></div>
+                </div>
+
+                <div class="info-panel">
+                    <h3>Список координат (JSON)</h3>
+                    <div class="coordinates-list" id="coordinatesList"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/visualization.js"></script>
+</body>
+</html>
