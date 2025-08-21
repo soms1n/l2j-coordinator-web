@@ -113,9 +113,9 @@ function buildRectangleCoordinates(x1, y1, x2, y2, z, heading, columnsPerRow, ro
             const y = yAlongLine + perpY * rowOffset;
 
             coordinates.push({
-                x: Math.round(x * 100) / 100, // Округляем до 2 знаков после запятой
-                y: Math.round(y * 100) / 100,
-                z: z,
+                x: parseInt(x),
+                y: parseInt(y),
+                z: parseInt(z),
                 heading: heading
             });
         }
@@ -295,14 +295,13 @@ function displayCoordinates() {
     const coordinatesList = document.getElementById('coordinatesList');
     coordinatesList.innerHTML = '';
 
-    currentCoordinates.forEach((coord, index) => {
-        const coordItem = document.createElement('div');
-        coordItem.className = 'coordinate-item';
-        coordItem.innerHTML = `
-            <span><strong>${index + 1}:</strong> X:${coord.x}, Y:${coord.y}, Z:${coord.z}, H:${coord.heading}°</span>
-            <span style="color: #666;">ID: ${index}</span>
+    currentCoordinates.forEach((coordinate, index) => {
+        const coordinateItem = document.createElement('div');
+        coordinateItem.className = 'coordinate-item';
+        coordinateItem.innerHTML = `
+            <span>{"x": ${coordinate.x}, "y": ${coordinate.y}, "z": ${coordinate.z}, "heading": ${coordinate.heading}},</span>
         `;
-        coordinatesList.appendChild(coordItem);
+        coordinatesList.appendChild(coordinateItem);
     });
 }
 

@@ -164,8 +164,6 @@ body {
 .coordinate-item {
     display: flex;
     justify-content: space-between;
-    padding: 8px 12px;
-    margin: 5px 0;
     background: #f8f9fa;
     border-radius: 6px;
     font-family: 'Courier New', monospace;
