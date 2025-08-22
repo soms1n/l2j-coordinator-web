@@ -388,12 +388,66 @@ function exportToJson() {
     console.info("Coordinates exported to JSON file");
 }
 
-// Добавляем кнопку экспорта в button-group
-document.addEventListener('DOMContentLoaded', function() {
-    const buttonGroup = document.querySelector('.button-group');
-    const exportButton = document.createElement('button');
-    exportButton.className = 'btn btn-secondary';
-    exportButton.textContent = 'Экспорт JSON';
-    exportButton.onclick = exportToJson;
-    buttonGroup.appendChild(exportButton);
-});
+// Копирование координат в буфер обмена
+function copyToClipboard() {
+    if (!currentCoordinates.length) {
+        showError('Нет данных для копирования. Сначала сгенерируйте координаты.');
+        return;
+    }
+    
+    try {
+        // Форматируем в том же стиле, как отображается на странице
+        const formattedCoordinates = currentCoordinates.map(coordinate => 
+            `{"x": ${coordinate.x}, "y": ${coordinate.y}, "z": ${coordinate.z}, "heading": ${coordinate.heading}}`
+        ).join(',\n');
+        
+        // Добавляем квадратные скобки для валидного JSON
+        const dataStr = `[\n${formattedCoordinates}\n]`;
+        
+        // Используем современный Clipboard API
+        if (navigator.clipboard && window.isSecureContext) {
+            navigator.clipboard.writeText(dataStr).then(() => {
+                showSuccess('JSON скопирован в буфер обмена!');
+                console.info("Coordinates copied to clipboard using Clipboard API");
+            }).catch(err => {
+                console.warn("Clipboard API failed, falling back to fallback method:", err);
+                fallbackCopyToClipboard(dataStr);
+            });
+        } else {
+            // Fallback для старых браузеров
+            fallbackCopyToClipboard(dataStr);
+        }
+    } catch (error) {
+        console.error("Error copying to clipboard:", error.message);
+        showError(`Ошибка копирования: ${error.message}`);
+    }
+}
+
+// Fallback метод копирования для старых браузеров
+function fallbackCopyToClipboard(text) {
+    const textArea = document.createElement('textarea');
+    textArea.value = text;
+    textArea.style.position = 'fixed';
+    textArea.style.left = '-999999px';
+    textArea.style.top = '-999999px';
+    document.body.appendChild(textArea);
+    textArea.focus();
+    textArea.select();
+    
+    try {
+        const successful = document.execCommand('copy');
+        if (successful) {
+            showSuccess('JSON скопирован в буфер обмена!');
+            console.info("Coordinates copied to clipboard using fallback method");
+        } else {
+            showError('Не удалось скопировать в буфер обмена');
+        }
+    } catch (err) {
+        console.error("Fallback copy failed:", err);
+        showError('Ошибка копирования в буфер обмена');
+    } finally {
+        document.body.removeChild(textArea);
+    }
+}
+
+// Кнопки уже добавлены в HTML, дополнительная инициализация не требуется

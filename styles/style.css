@@ -118,6 +118,17 @@ body {
     transform: translateY(-2px);
 }
 
+.btn-copy {
+    background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+    color: white;
+}
+
+.btn-copy:hover {
+    background: linear-gradient(135deg, #218838 0%, #1ea085 100%);
+    transform: translateY(-2px);
+    box-shadow: 0 10px 20px rgba(40, 167, 69, 0.3);
+}
+
 .visualization-section {
     margin-top: 30px;
 }
